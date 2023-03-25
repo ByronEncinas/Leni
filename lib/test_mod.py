@@ -1,0 +1,2 @@
+def s():
+    print('a')
