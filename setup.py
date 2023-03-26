@@ -1,8 +1,11 @@
 import lib.display_help as help
 import lib.search as srch
 import lib.test_mod as tm
-import os
+import os, sys
 
+
+# CREATE A PACKAGE
+# https://www.geeksforgeeks.org/how-to-build-a-python-package/
 
 ## This file stores all command prompt instructions that
 ## are understood by the input.
@@ -11,6 +14,8 @@ import os
 # https://clig.dev/#human-first-design
 
 os.system(help.OS_SYS[os.name])
+
+global curr_user, curr_userpath
 
 curr_user = os.getlogin()
 curr_userpath = os.path.expanduser('~')
@@ -66,6 +71,8 @@ if __name__ == '__main__':
     main()
     srch.main()
     tm.s()
+    print(os.isatty(sys.stdout.fileno()))
+    print(sys.stdout.isatty())
 
 # os.system("echo GeeksForGeeks")
 # os.system("dir")

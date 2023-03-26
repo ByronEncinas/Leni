@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import logging
+from rich.console import Console
+from rich.logging import RichHandler
+
+console = Console()
+log = logging.getLogger();
+logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(markup=True, rich_tracebacks=True)])
+
+
+def exec():
+    console.print("""[bold red]""")
+    exit()
