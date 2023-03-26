@@ -4,19 +4,7 @@ Leni terminal is a personal project to implement a CLI application that takes a 
 inputs and retrieves a data analysis of its contents after being specified.
 
 Version Control System for either backups of datafiles and code snippets. 
-<!-- 
-<p align="center">
- <a href="https://github.com/Havard03/spotr/graphs/contributors">
-  <img src="https://img.shields.io/github/contributors/Havard03/spotr.svg?style=for-the-badge"></a>
- <a href="https://github.com/Havard03/spotr/network/members">
-  <img src="https://img.shields.io/github/forks/Havard03/spotr.svg?style=for-the-badge"></a>
- <a href="https://github.com/Havard03/spotr/stargazers">
-  <img src="https://img.shields.io/github/stars/Havard03/spotr.svg?style=for-the-badge"></a>
- <a href="https://github.com/Havard03/spotr/issues">
-  <img src="https://img.shields.io/github/issues/Havard03/spotr.svg?style=for-the-badge"></a>
- <a href="https://github.com/Havard03/spotr/blob/master/LICENSE.txt">
-  <img src="https://img.shields.io/github/license/Havard03/spotr.svg?style=for-the-badge"></a>
-</p> -->
+
 
 ## Simple Commands
 
