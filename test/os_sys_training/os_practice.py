@@ -73,7 +73,14 @@ class FileSystemFinder:
 
  """
 
+
+# Returns `"HOME"` if the key doesn't exist
+print(os.getenv('KEY_THAT_MIGHT_EXIST', "HOME"))
 print()
+for key, value in os.environ.items():
+    print(f'{key}: {value[0:20]}')
+print()
+
 if __name__ == '__main__':
     print(os.getcwd())
     """
@@ -87,7 +94,6 @@ if __name__ == '__main__':
     Search = FileSystemFinder()
     print(Search.fileTree("file.ext"))
     #print(Search.fileTree("RootTree"))
-    """
     x, y = 0, 0
     while True:
         ts = os.get_terminal_size()
@@ -97,4 +103,5 @@ if __name__ == '__main__':
             print(ts.lines, ts.columns)
             continue    
         x, y = ts.lines, ts.columns
+"""
         

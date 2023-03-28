@@ -3,6 +3,7 @@ __init__.py
 
 # folders
 ./__pycache__/
+./test/
 
 
 

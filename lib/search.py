@@ -1,7 +1,8 @@
-def main():
-    print('hola')
+# leni search <file>
+
+
+def search_file():
     pass
 
-
 if __name__ == '__main__':
-    main()
+    search_file()
