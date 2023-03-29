@@ -1,5 +1,5 @@
 import os, sys, subprocess
-from lib.display_help import System
+from lib.Manager import System, VCSManager
 from rich.console import Console
 from rich.logging import RichHandler
 
@@ -9,13 +9,10 @@ console = Console()
 
 os.system("cls")
 # accesible from anywhere in file
-global parent_dir, path, arg
 # > $ leni [arg]
 arg = sys.argv[1:]
-# Parent Directory path
-parent_dir = os.getcwd()  
 # Path
-path = os.path.join(parent_dir, '.leni')
+path = os.path.join(os.getcwd(), '.leni')
 
 # logger is a built-in library to handle errors and exception in a more manageable way
 log = logging.getLogger()
@@ -29,47 +26,70 @@ logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handle
 # python tty_setup.py = leni (convert to executable in both batch and bash)
 # command: python tty_setup.py --help 
 
-def init():
-    
-    # if remote repo exists
-    if not os.path.exists(path):
+global VSC_CMDS, SYS_CMDS
+VCS_CMDS = {"create": VCSManager().create,"ReadVersion": VCSManager().ReadVersion,
+            "WriteVersion": VCSManager().WriteVersion}
+SYS_CMDS = {"--help": System.help,"status": System.status,
+            "id_gen": System.id_gen,"release": System.release,"licence": System.licence}
+
+def validate_init():
+    if os.path.exists(path):
+        return True
+    else:
         console.print(
-            """  
-[yellow]           Leni Version Control System 
-[white]            Optimized for Fortran/C++
+"""  
+[bold green] Your Leni remote repository already initialized: 
+[bold white] See status: 
+"""
+)   
+
+        return False
+
+def init():
+
+    if len(arg) == 0 or "--help" in arg:
+        SYS_CMDS["--help"]()
+    else:
+
+        global flag_init
+        # if remote repo exists
         
-[black]     You have Initialized your remote repository
-            """
-        )    
+        console.print(""" 
+    [orange]────────────────────────────────────────────────────────────────────""")
+        console.print("""  
+    [yellow]           Leni Version Control System 
+    [white]            Optimized for Fortran/C++
+    
+    [black]     You have Initialized your remote repository
+                """)    
+            # check if we can create .leni/ folder
         try:
             os.mkdir(path)
-
+            flag_init = True
+                # initialize repo
+            VCSManager().create(flag=flag_init)
+                
         except OSError as e:
-
+            # michg be permissions 
+            flag_init = False
             log.error(e)
-
-    else:
-           console.print(
-            """  
-[bold green] Your Leni remote repository already initialized
-[bold white] See status:
-            """
-        )
-           print(dir(System))
-           #print(dir(System))
-           #print(dir(System))
-           
-           System.status()
-        # get_status() of HEAD
-        # print current status
 
 
 if __name__ == '__main__':
     
-    if len(arg) == 1 and arg[0] == 'init': 
+    if not validate_init(): 
         init()
+
+    elif len(arg) == 0:
+        SYS_CMDS["--help"]()
+
     else:
-        # call command_parser
-        pass
-        # execute shell_setup.py
+        # if command is a system instruction then
+        if arg[0] in SYS_CMDS:
+            SYS_CMDS[arg[0]]()
+        # if command is a version control instruction then
+        elif arg[0] in VCS_CMDS:
+            SYS_CMDS[arg[0]]()
+        else:
+            pass
     

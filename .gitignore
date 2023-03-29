@@ -1,5 +1,5 @@
 # module imports
-__init__.py
+*/__init__.py
 
 # folders
 ./__pycache__/

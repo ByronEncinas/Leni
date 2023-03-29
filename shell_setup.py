@@ -1,5 +1,5 @@
-import lib.display_help as help
-import lib.search as srch
+import lib.Manager as help
+import lib.io_man as srch
 # import lib.test_mod as tm
 import os, sys
 

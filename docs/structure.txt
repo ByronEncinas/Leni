@@ -1,0 +1,35 @@
+# detailed structure of /.leni file inspired in *git*
+
+/.leni
+    |
+    ├── release             --> release version and requirements
+    ├── structure.txt       --> structure of the /.leni/ file system
+    ├── .temp               --> saves temporary changes b4 commit
+    ├── .env                --> saves environmental variables if used (not in this version)
+    ├── changelog.txt       --> erros and warning specifications
+    ├── locale
+    │   ├── branches        --> list of branches (id's, location and individual info)
+    │   └── History         --> All information on whole project (All id's, encoded files, etc.)
+    ├── members
+    ├── readme.md
+    ├── static              --> Contains visual representations of current Tree
+    │   ├── fonts
+    │   ├── images
+    │   ├── javascript
+    │   └── styles
+    ├── admin               --> Information of first/current user
+    └── lib                 --> Classes and static methods with specific and general use
+
+
+
+HEAD is a file with the following information (read with regex if possible)
+
+"hexacode" is a id for branch under the level of HEAD
+(comments go in parenthesis)
+──────────────────────────────────────────────────────────────────────────────────
+
+!$ HEAD id --> {previous level id}               (basicly a pointer)
+above_files {}
+folders
+
+

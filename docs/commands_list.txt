@@ -9,6 +9,7 @@ fin           - exits the cli-leni terminal
 show          - 
 
 
+
 SPECIFICS
 
 leni <filename> -[dfs|bds] [from path ./home/user/etc...]
