@@ -4,6 +4,7 @@
 # folders
 ./__pycache__/
 ./test/
+./.leni/
 
 
 

@@ -3,6 +3,10 @@
 Leni terminal is a personal project to implement a CLI application that takes a files as 
 inputs and retrieves a data analysis of its contents after being specified.
 
+# Version Control Workflow
+
+**pending**
+
 # Simple Commands
 
 **Command**|**Description**
@@ -13,7 +17,7 @@ inputs and retrieves a data analysis of its contents after being specified.
 **cls** or **clean**|- empties terminal
 **past**|- history of last 100 input commands
 **fin**|- exits the cli-leni terminal
-**show**|-
+**show**|- shows directories in path
 
 
 # Resources
