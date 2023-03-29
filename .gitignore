@@ -6,5 +6,7 @@
 ./test/
 ./.leni/
 
-
+# extensions
+*.bat
+*.sh
 
