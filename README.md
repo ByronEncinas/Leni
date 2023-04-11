@@ -1,11 +1,40 @@
 # Leni Version Control System
 
-Leni terminal is a personal project to implement a CLI application that takes a files as 
-inputs and retrieves a data analysis of its contents after being specified.
+Leni terminal is Version Control System, very much a clone of git in python.
+Nevertheless it is provided a few added controls to manage files independently of the terminal shell
 
 # Version Control Workflow
 
-**pending**
+set yourself in the path of your project
+type: "leni" or "leni --help" to display command manual
+
+to initialize Leni type:
+
+>> leni init
+which in turn will do two things:
+        --> check in .leni/ folder exists, in that case will give you 
+                [HEAD id]
+                [Number of items (i.e. files in the project)]
+                [last modification date and time]
+
+        --> if .leni/ does not exist, it will create it along with a folder named
+                after the new HEAD id with a .lni extension.
+                it will write 
+                [new HEAD id]
+                [Number of items (i.e. files in the project)]
+                [modification date and time]
+
+>> leni status
+will display the status of the whole project, with all of its versions
+        --> HEAD id --> "[HEAD]" {%No. files}
+            prev id --> "message of description of change" {%No. files}
+            prev id --> "message of description of change" {%No. files}
+            prev id --> "message of description of change" {%No. files}
+            prev id --> "message of description of change" {%No. files}
+            .
+            .
+            .
+
 
 # Simple Commands
 
