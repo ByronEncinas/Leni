@@ -10,8 +10,10 @@ type: "leni" or "leni --help" to display command manual
 
 to initialize Leni type:
 
->> leni init
+    >>$ leni init
+
 which in turn will do two things:
+
         --> check in .leni/ folder exists, in that case will give you 
                 [HEAD id]
                 [Number of items (i.e. files in the project)]
@@ -24,8 +26,14 @@ which in turn will do two things:
                 [Number of items (i.e. files in the project)]
                 [modification date and time]
 
->> leni status
+Other useful command is:
+
+    >>$ leni status
+
 will display the status of the whole project, with all of its versions
+
+        >>$ leni status
+
         --> HEAD id --> "[HEAD]" {%No. files}
             prev id --> "message of description of change" {%No. files}
             prev id --> "message of description of change" {%No. files}
@@ -49,12 +57,37 @@ will display the status of the whole project, with all of its versions
 **show**|- shows directories in path
 
 
+# Folder <code>/.leni </code> structure
+
+
+    /.leni
+        |
+        ├── release             --> release version and requirements
+        ├── structure.txt       --> structure of the /.leni/ file system
+        ├── .temp               --> saves temporary changes b4 commit
+        ├── .env                --> saves environmental variables if used (not in this version)
+        ├── changelog.txt       --> erros and warning specifications
+        ├── locale
+        │   ├── branches        --> list of branches (id's, location and individual info)
+        │   └── History         --> All information on whole project (All id's, encoded files, etc.)
+        ├── members
+        ├── readme.md
+        ├── static              --> Contains visual representations of current Tree
+        │   ├── fonts
+        │   ├── images
+        │   ├── javascript
+        │   └── styles
+        ├── admin               --> Information of first/current user
+        └── lib                 --> Classes and static methods with specific and general use
+
+
+
 # Resources
 
-https://dev.to/wesen/14-great-tips-to-make-amazing-cli-applications-3gp3
-https://ruslanspivak.com/lsbasi-part1/
-https://click.palletsprojects.com/en/8.1.x/
-https://docs.python.org/3/library/argparse.html
+- https://dev.to/wesen/14-great-tips-to-make-amazing-cli-applications-3gp3
+- https://ruslanspivak.com/lsbasi-part1/
+- https://click.palletsprojects.com/en/8.1.x/
+- https://docs.python.org/3/library/argparse.html
 
 
 ## Finds the difference between two files using Levenshtein distance.
