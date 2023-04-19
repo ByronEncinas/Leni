@@ -1,2 +1,16 @@
-VSC_CMDS = {"create": create,"status": status, "ReadVersion": ReadVersion,"ReadVersion": ReadVersion}
-SYS_CMDS = {"a": 0}
+from Manager import System, VCSManager
+
+VCS_CMDS = {
+            "init":         VCSManager().create,
+            ""
+            "ReadVersion":  VCSManager().ReadVersion,
+            "WriteVersion": VCSManager().WriteVersion
+            }
+
+SYS_CMDS = {
+            "--help":  System.help,
+            "status":  System.status,
+            "id_gen":  System.id_gen,
+            "release": System.release,
+            "licence": System.licence   
+            }

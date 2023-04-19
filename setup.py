@@ -1,16 +1,17 @@
 import os, sys, subprocess
+import logging
 from lib.Manager import System, VCSManager
 from rich.console import Console
 from rich.logging import RichHandler
 
-import logging
-
 console = Console()
 
 os.system("cls")
+
 # accesible from anywhere in file
 # > $ leni [arg]
 arg = sys.argv[1:]
+
 # Path
 path = os.path.join(os.getcwd(), '.leni')
 
@@ -18,19 +19,29 @@ path = os.path.join(os.getcwd(), '.leni')
 log = logging.getLogger()
 logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(markup=True, rich_tracebacks=True)])
 
-
-# if command is 'leni' or 'leni --help'
-# leni 
-# leni --help
-# leni -h
-# python tty_setup.py = leni (convert to executable in both batch and bash)
-# command: python tty_setup.py --help 
-
 global VSC_CMDS, SYS_CMDS
-VCS_CMDS = {"create": VCSManager().create,"ReadVersion": VCSManager().ReadVersion,
-            "WriteVersion": VCSManager().WriteVersion}
-SYS_CMDS = {"--help": System.help,"status": System.status,
-            "id_gen": System.id_gen,"release": System.release,"licence": System.licence}
+
+VCS_CMDS = {
+            "init":        VCSManager().initialize,
+            "status" :     VCSManager().status,
+            "log" :        VCSManager().log,
+            "add" :        VCSManager().add,
+            "rm" :         VCSManager().remove,
+            "commit":      VCSManager().commit,  # updates Head 
+            "branch":      VCSManager().branch,  # set up a branch with a new-side-controlled Head
+            "switch" :     VCSManager().switch,  # change from one branch to another
+            }
+
+# no contribution workflows allowed for v1.0.0
+
+SYS_CMDS = {
+            "--help":  System.help,
+            "status":  System.status,
+            "id_gen":  System.id_gen,
+            "release": System.release,
+            "licence": System.licence,
+            }
+
 
 def validate_init():
     if os.path.exists(path):
@@ -53,13 +64,9 @@ def init():
 
         global flag_init
         # if remote repo exists
-        
-        console.print(""" 
-    [orange]────────────────────────────────────────────────────────────────────""")
-        console.print("""  
+        console.print("""
+    [orange]────────────────────────────────────────────────────────────────────
     [yellow]           Leni Version Control System 
-    [white]            Optimized for Fortran/C++
-    
     [black]     You have Initialized your remote repository
                 """)    
             # check if we can create .leni/ folder
@@ -67,11 +74,12 @@ def init():
             os.mkdir(path)
             flag_init = True
                 # initialize repo
-            VCSManager().create(flag=flag_init)
+            VCSManager().initialize(arg, flag=flag_init)
                 
         except OSError as e:
             # michg be permissions 
             flag_init = False
+
             log.error(e)
 
 
@@ -89,7 +97,7 @@ if __name__ == '__main__':
             SYS_CMDS[arg[0]]()
         # if command is a version control instruction then
         elif arg[0] in VCS_CMDS:
-            SYS_CMDS[arg[0]]()
+            VCS_CMDS[arg[0]]()
         else:
             pass
     

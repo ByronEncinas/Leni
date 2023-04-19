@@ -53,69 +53,80 @@ class System():
     
     @staticmethod
     def id_gen():
-        commit_id = "".join(random.sample(id_char,7))
+        curr_commit_id = "".join(random.sample(id_char,7))
 
         # if file id_pointers.dat exists find
         if os.path.exists(os.path.join(project_path, 'id_pointers.dat')):
+            
             console.print("""[bold green] found id_pointers.dat""")
             # then read all values in file and if no ocurrence then save
-            f = open(os.path.join(project_path, 'id_pointers'), "w")
-            ids = []
-            for line in f:
-                ids.append(line)
 
-            if commit_id in ids:
-                f.close()
-                return System.id_gen()
+            with open(os.path.join(project_path, 'id_pointers'), "w") as idpointers:
+                ids = []
+                for line in idpointers:
+                    ids.append(line)
+                if curr_commit_id in ids:
+                    return System.id_gen()
         
-        f.write(commit_id)
-        f.close()
-        console.print("""[bold green] ID Generated: {commit_id}""")
-        
+        # console.print(f"""[bold green] ID Generated: {commit_id}""")
 
-        return commit_id
-    
+        return curr_commit_id
 
-    
+
+
 class VCSManager():
-    global HEADpath
-    HEADpath = os.path.join(project_path, 'HEAD.dat')
 
-    def create(self, path = project_path, flag = False):
-        self.flag = flag
+    def __init__(self):
         self.path = project_path
-        # get a dict with all info on path +/.leni/
-        # if D:\Coding\CLI_Leni\HEAD exists then that is the curr version
-        f = open(HEADpath, "x")
-        self.WriteVersion(f)
-        f.close()
+        self.headpath = os.path.join(project_path, 'HEAD.dat') 
+        self.branch = {'Current':'Main'}
 
-    def WriteVersion(self, file):
-        try:
-            file.write(
-f"""{file.name}:
-[HEAD] {System.id_gen()}
-[DATE] {datetime.datetime.now()}            
-[FLAG] {self.flag}
-[DIR]  {self.path}
-""")
-            return True
-        
+    def initialize(self, flag = False) -> None:
 
-        except:
-            return Exception
-        
+        args = sys.argv[1:]
+        # find out way to turn flag into branch-related so data is not overwritten
+        if not flag:
+            return
 
-    def ReadVersion(self):
-        
-        HEAD = open(HEADpath, "rb")
-        jsonObject = json.load(HEAD)
-        HEAD.close()
+        # future adjustment using sqlite to store data
+        with open(self.headpath, 'w') as head:
+            self.latestCommit = System.id_gen()
+            head.write(f'[BRANCH] {self.branch["Current"]}\n')
+            head.write(f'[HEAD] {self.latestCommit}\n')
+            head.write(f"[DATE] {datetime.datetime.now()}\n")
+            head.write(f"[DIR] {self.path}\n")
+            head.write(f"[FILENO] {None}\n")
+            head.write(f"[COMMIT SIZE (bytes)] {None}\n")
+
+
+    def status(self) -> None:
+        # will print all info on the current state of the latest commit AKA Head
         pass
-        # read
 
-
-
-if __name__ == '__main__':
+        
+    def log(self) -> None:
+        pass
     
+        
+    def add(self) -> None:
+        pass
+    
+        
+    def remove(self) -> None:
+        pass
+    
+        
+    def commit(self) -> None:
+        # when commiting the HEAD.dat will be changed in name
+        # and overwritten in some new id_gen
+        pass
+    
+    def branch(self) -> None:
+        # this will modify self.da
+        pass
+    
+    def switch(self) -> None:
+        pass
+    
+if __name__ == '__main__':
     pass

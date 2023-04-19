@@ -1,5 +1,17 @@
 # Leni Version Control System
 
+<p align="center">
+    <img src="https://img.shields.io/github/commit-activity/w/ByronEncinas/Leni?style=for-the-badge">
+      <img src="https://img.shields.io/github/stars/ByronEncinas/Leni?style=for-the-badge">
+    <img src="https://img.shields.io/github/forks/ByronEncinas/Leni?style=for-the-badge">
+    <img src="https://img.shields.io/github/issues-pr/ByronEncinas/Leni?style=for-the-badge">
+  <img src="https://img.shields.io/github/contributors/ByronEncinas/Leni?style=for-the-badge">
+</p>
+
+<p align="center">
+</p>
+
+
 Leni terminal is Version Control System, very much a clone of git in python.
 Nevertheless it is provided a few added controls to manage files independently of the terminal shell
 
