@@ -1,25 +1,23 @@
 # detailed structure of /.leni file inspired in *git*
 
-/.leni
+/project
     |
-    ├── release             --> release version and requirements
+    ├── requirements.txt    --> installed dependencies
     ├── structure.txt       --> structure of the /.leni/ file system
     ├── .temp               --> saves temporary changes b4 commit
     ├── .env                --> saves environmental variables if used (not in this version)
     ├── changelog.txt       --> erros and warning specifications
     ├── locale
-    │   ├── branches        --> database of branches (id's, location and individual info)
+    │   ├── branches        --> sqlite database of branches (id's, location and individual info)
     │   └── History         --> All information on whole project (All id's, encoded files, etc.)
-    ├── members
-    ├── readme.md
+    ├── docs                --> Structure information
+    ├── lib                 --> Classes and static methods with specific and general use
     ├── static              --> Contains visual representations of current Tree
     │   ├── fonts
     │   ├── images
     │   ├── javascript
     │   └── styles
-    ├── admin               --> Information of first/current user
-    └── lib                 --> Classes and static methods with specific and general use
-
+    └── readme.md
 
 
 HEAD is a file with the following information (read with regex if possible)

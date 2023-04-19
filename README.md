@@ -58,44 +58,67 @@ will display the status of the whole project, with all of its versions
 
 # Simple Commands
 
+Leni is planned to only support the following commands
+
 **Command**|**Description**
 :-----:|:-----:
-**help**|- display listed commands and their usage
-**system**|- shows system specification
-**here**|- prints files in path
-**cls** or **clean**|- empties terminal
-**past**|- history of last 100 input commands
-**fin**|- exits the cli-leni terminal
-**show**|- shows directories in path
-
+**\<blank space \>**| Display Leni Manual, list of commands and information
+**init**| Creates ./leni file containing database and scripts
+**status**| shows relevant data of current branch
+**commit**| states the changes of the project
+**log**| shows 
+**branch**| shows relevant data of current branch
+**merge**| shows relevant data of current branch
 
 # Folder <code>/.leni </code> structure
 
-
-    /.leni
+    /project
         |
         ├── release             --> release version and requirements
         ├── structure.txt       --> structure of the /.leni/ file system
+        ├── .leni
         ├── .temp               --> saves temporary changes b4 commit
         ├── .env                --> saves environmental variables if used (not in this version)
         ├── changelog.txt       --> erros and warning specifications
-        ├── locale
-        │   ├── branches        --> list of branches (id's, location and individual info)
-        │   └── History         --> All information on whole project (All id's, encoded files, etc.)
-        ├── members
         ├── readme.md
         ├── static              --> Contains visual representations of current Tree
         │   ├── fonts
         │   ├── images
         │   ├── javascript
         │   └── styles
-        ├── admin               --> Information of first/current user
         └── lib                 --> Classes and static methods with specific and general use
 
 
+    /.leni
+        |
+        ├── db                   --> contains *sqlite file(s)             
+        └── scripts              --> python scripts to modify/create/move/remove databases
+
+
+
+# Database Design is going to be inspired by Git
+
+<img src="./static/object-hierarchy.png" title="Database structure of Git" alt="Reference: https://aosabook.org/en/v2/git.html">
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+
+**Command**|**Description**
+:-----:|:-----:
+**GitObject**|  display listed commands and their usage
+**Tree**| shows system specification
+**Blob**| prints files in path
+**Commit**| empties terminal
+**Tag**| history of last 100 input commands
 
 # Resources
 
+- https://aosabook.org/en/v2/git.html
 - https://dev.to/wesen/14-great-tips-to-make-amazing-cli-applications-3gp3
 - https://ruslanspivak.com/lsbasi-part1/
 - https://click.palletsprojects.com/en/8.1.x/
@@ -105,4 +128,4 @@ will display the status of the whole project, with all of its versions
 ## Finds the difference between two files using Levenshtein distance.
 
 - https://github.com/Ach113/dif
-- https://clig.dev/#human-first-design
+- https://clig.dev/
