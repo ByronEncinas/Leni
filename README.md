@@ -104,10 +104,9 @@ Leni is planned to only support the following commands
 **Command**|**Description**
 :-----:|:-----:
 **GitObject**|  display listed commands and their usage
-**Tree**| shows system specification
-**Blob**| prints files in path
-**Commit**| empties terminal
-**Tag**| history of last 100 input commands
+**Tree**| History of consecuent commits
+**Blob**| TypeNone-like datatype
+**Commit**| Unit of recorded changes in repository
 
 # Resources
 
