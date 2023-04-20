@@ -99,13 +99,6 @@ Leni is planned to only support the following commands
 # Database Design is going to be inspired by Git
 
 <img src="./static/object-hierarchy.png" title="Database structure of Git" alt="Reference: https://aosabook.org/en/v2/git.html">
-<style>
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
 
 
 **Command**|**Description**
