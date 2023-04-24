@@ -7,24 +7,12 @@ from rich.console import Console
 # here we store all methods in charge of displaying to screen
 
 console = Console()
-
+global OS_SYS
 OS_SYS = {'nt': 'cls', 'posix':'clear'}
+
 os.system(OS_SYS[os.name])
 
 console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
-
-# Parent Directory path
-parent_dir = os.getcwd()  
-# Path
-project_path = os.path.join(parent_dir, '.leni')
-# id available characters
-id_char = 'abcdefghijklmnopqrstvwxyz0123456789'
-
-# class system will allow user to check on data from the software Leni
-# help manual
-# status i.e. if path has been initialized as Leni repo or not
-# licence information
-# which version/release are they using
 
 class System():
     # leni --help
@@ -53,12 +41,18 @@ class System():
     
     @staticmethod
     def id_gen():
+        # Parent Directory path
+        parent_dir = os.getcwd()  
+        # Path
+        project_path = os.path.join(parent_dir, '.leni/db/sha')
+        # id available characters
+        id_char = 'abcdefghijklmnopqrstvwxyz0123456789'
         curr_commit_id = "".join(random.sample(id_char,7))
 
         # if file id_pointers.dat exists find
         if os.path.exists(os.path.join(project_path, 'id_pointers.dat')):
             
-            console.print("""[bold green] found id_pointers.dat""")
+            console.print("""[bold green] found .leni/db/sha/id_pointers.dat""")
             # then read all values in file and if no ocurrence then save
 
             with open(os.path.join(project_path, 'id_pointers'), "w") as idpointers:
@@ -68,65 +62,52 @@ class System():
                 if curr_commit_id in ids:
                     return System.id_gen()
         
-        # console.print(f"""[bold green] ID Generated: {commit_id}""")
+        console.print(f"""[bold green] ID Generated: {curr_commit_id}""")
 
         return curr_commit_id
+""" 
+VCS manager will be using sqlite to address the management of the GitObject, Tree, Blob, Commit and Tag Tables
 
-
-
+"""
 class VCSManager():
 
     def __init__(self):
-        self.path = project_path
-        self.headpath = os.path.join(project_path, 'HEAD.dat') 
-        self.branch = {'Current':'Main'}
+        self.path = None
+        self.headpath = './'
+        self.branch = {}
 
     def initialize(self, flag = False) -> None:
-
-        args = sys.argv[1:]
-        # find out way to turn flag into branch-related so data is not overwritten
-        if not flag:
-            return
-
-        # future adjustment using sqlite to store data
-        with open(self.headpath, 'w') as head:
-            self.latestCommit = System.id_gen()
-            head.write(f'[BRANCH] {self.branch["Current"]}\n')
-            head.write(f'[HEAD] {self.latestCommit}\n')
-            head.write(f"[DATE] {datetime.datetime.now()}\n")
-            head.write(f"[DIR] {self.path}\n")
-            head.write(f"[FILENO] {None}\n")
-            head.write(f"[COMMIT SIZE (bytes)] {None}\n")
-
+        console.print("""[bold green] ./.leni folder created""")
 
     def status(self) -> None:
-        # will print all info on the current state of the latest commit AKA Head
-        pass
-
+        console.print("""[bold green] status shows diff between current content""")
+        console.print("""[bold green] and previous commit object""")
         
     def log(self) -> None:
-        pass
+        console.print("""[bold green] display commit history in different formats""")
     
         
     def add(self) -> None:
-        pass
-    
+        console.print("""[bold green] record changes on certain file""")
+        console.print("""[bold green] AKA convert to blob and temporaly store""")
         
     def remove(self) -> None:
-        pass
+        console.print("""[bold green] unrecord changes on certain file""")
+        console.print("""[bold green] AKA delete temporaly store""")
     
-        
     def commit(self) -> None:
-        # when commiting the HEAD.dat will be changed in name
-        # and overwritten in some new id_gen
-        pass
-    
+        console.print("""[bold green] AKA convert to blob and temporaly store""")
+        
     def branch(self) -> None:
-        # this will modify self.da
-        pass
+        console.print("""[bold green] Create a new branch <name>""")
+        console.print("""[bold green] Create a new SubTree into the database""")
     
     def switch(self) -> None:
-        pass
-    
+        console.print("""[bold green] Change to branch <name>""")
+        console.print("""[bold green] Change to a new SubTree into the database""")
+        
+    def merge(self) -> None:
+        console.print("""[bold green] Pending to document""")
+        
 if __name__ == '__main__':
     pass
