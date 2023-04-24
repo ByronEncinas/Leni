@@ -1,83 +1,103 @@
-import lib.Manager as help
-import lib.io_man as srch
-# import lib.test_mod as tm
-import os, sys
+#!/usr/bin python3 
+import os, sys, subprocess
+import logging
+from builtin.Manager import System, VCSManager
+from rich.console import Console
+from rich.logging import RichHandler
 
-# this is basicly a shell
-# CREATE A PACKAGE
-# https://www.geeksforgeeks.org/how-to-build-a-python-package/
+console = Console()
 
-## This file stores all command prompt instructions that
-## are understood by the input.
-# https://www.geeksforgeeks.org/how-to-run-bash-script-in-python/
-# https://www.youtube.com/playlist?list=PL6xPxnYMQpqsooCDYtQQSiD2O3YO0b2nN
-# https://clig.dev/#human-first-design
+os.system("cls")
 
-os.system(help.OS_SYS[os.name])
+# accesible from anywhere in file
+# > $ leni [arg]
+arg = sys.argv[1:]
 
-global curr_user, curr_userpath
+# Path
+path = os.path.join(os.getcwd(), '.leni')
 
-curr_user = os.getlogin()
-curr_userpath = os.path.expanduser('~')
+# logger is a built-in library to handle errors and exception in a more manageable way
+log = logging.getLogger()
+logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(markup=True, rich_tracebacks=True)])
 
-past_cmd = []
+global VSC_CMDS, SYS_CMDS
 
-help.title()
+VCS_CMDS = {
+            "init":        VCSManager().initialize,
+            "status" :     VCSManager().status,
+            "log" :        VCSManager().log,
+            "add" :        VCSManager().add,
+            "rm" :         VCSManager().remove,
+            "commit":      VCSManager().commit,  # updates Head 
+            "branch":      VCSManager().branch,  # set up a branch with a new-side-controlled Head
+            "switch" :     VCSManager().switch,  # change from one branch to another
+            }
 
-def main():
-    while True:
+# no contribution workflows allowed for v1.0.0
 
+SYS_CMDS = {
+            "--help":  System.help,
+            "status":  System.status,
+            "id_gen":  System.id_gen,
+            "release": System.release,
+            "licence": System.licence,
+            }
+
+
+def validate_init():
+    if os.path.exists(path):
+        return True
+    else:
+        console.print(
+"""  
+[bold green] Your Leni remote repository already initialized: 
+[bold white] See status: 
+"""
+)   
+
+        return False
+
+def init():
+
+    if len(arg) == 0 or "--help" in arg:
+        SYS_CMDS["--help"]()
+    else:
+
+        global flag_init
+        # if remote repo exists
+        console.print("""
+    [orange]────────────────────────────────────────────────────────────────────
+    [yellow]           Leni Version Control System 
+    [black]     You have Initialized your remote repository
+                """)    
+            # check if we can create .leni/ folder
         try:
-            _input_ = input(str(curr_userpath) + ' > $ ')
-
-            # remember last 100 commands
-            if len(past_cmd) != 100 and _input_ != '':
-                past_cmd.append(_input_)
-            else:
-                past_cmd.pop(0)
+            os.mkdir(path)
+            flag_init = True
+                # initialize repo
+            VCSManager().initialize(arg, flag=flag_init)
                 
-            # search for help commands
-            if (len(_input_) == 4 and _input_ in help.system_keys) or (_input_ in ('help','leni')):
-                # either putting leni or help display commands and instructions
-                help.help_screen()
-                continue    
+        except OSError as e:
+            # michg be permissions 
+            flag_init = False
 
-            elif _input_ == 'clear' or _input_ == 'cls' :
-                # clear terminal independently of OS
-                # if win: os.name == nt
-                # if linux or mac: os.name == posix
-                os.system(help.OS_SYS[os.name])
-                help.title()
+            log.error(e)
 
-            elif _input_ == 'past':
-                # print last 100 commands
-                print()
-                for i,c in enumerate(past_cmd):
-                    print(f"{' ': >5}",i, f"{' ': >5}", c)
-                print()
-            elif _input_ == 'show':
-                help.show()
-            # here we recognize and redirect with user_defined_functions
-            if _input_ in help.system_keys:
-                pass
-            
-            # exit terminal
-            if _input_ == 'fin':
-                break
-        except KeyboardInterrupt:
-            break
 
 if __name__ == '__main__':
-    main()
-    srch.main()
-    # print(os.isatty(sys.stdout.fileno()))
-    # print(sys.stdout.isatty())
+    
+    if not validate_init(): 
+        init()
 
-# os.system("echo GeeksForGeeks")
-# os.system("dir")
-# os.system('date +"Today is: %A %d %B"')
-# os.system('gnuplot')
-# os.system('README.txt')
-# From Python3.7 you can add
-# keyword argument capture_output
-#print(subprocess.run(["echo", "Geeks for geeks"],capture_output=True))
+    elif len(arg) == 0:
+        SYS_CMDS["--help"]()
+
+    else:
+        # if command is a system instruction then
+        if arg[0] in SYS_CMDS:
+            SYS_CMDS[arg[0]]()
+        # if command is a version control instruction then
+        elif arg[0] in VCS_CMDS:
+            VCS_CMDS[arg[0]]()
+        else:
+            pass

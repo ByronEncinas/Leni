@@ -1,6 +1,6 @@
 import os, sys, subprocess
 import logging
-from lib.Manager import System, VCSManager
+from builtin.Manager import System, VCSManager
 from rich.console import Console
 from rich.logging import RichHandler
 
