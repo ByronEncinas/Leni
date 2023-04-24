@@ -15,6 +15,22 @@
 Leni terminal is Version Control System, very much a clone of git in python.
 Nevertheless it is provided a few added controls to manage files independently of the terminal shell
 
+# Create Virtual Environment for Test
+
+## Using venv
+
+Track dependencies needed to deploy Leni by testing changes in a virtual environment
+
+        CLI_Leni> python -m venv venv 
+        CLI_Leni> .\venv\Scripts\activate.ps1 
+        CLI_Leni> pip install -r .\requirements.txt
+
+And when finished
+
+        CLI_Leni> pip freeze > requirements.txt
+        CLI_Leni> deactivate
+
+
 # Version Control Workflow
 
 set yourself in the path of your project
@@ -30,6 +46,9 @@ which in turn will do two things:
                 [HEAD id]
                 [Number of items (i.e. files in the project)]
                 [last modification date and time]
+
+                That it'll obtain from 
+                ./CLI_Leni/.leni/db/dbleni.db
 
         --> if .leni/ does not exist, it will create it along with a folder named
                 after the new HEAD id with a .lni extension.
