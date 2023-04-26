@@ -91,7 +91,7 @@ Leni is planned to only support the following commands
 
 # Folder <code>/.leni </code> structure
 
-    /project
+    ./project
         |
         ├── release             --> release version and requirements
         ├── structure.txt       --> structure of the /.leni/ file system
@@ -108,10 +108,11 @@ Leni is planned to only support the following commands
         └── lib                 --> Classes and static methods with specific and general use
 
 
-    /.leni
+    ./.leni
         |
         ├── db                   --> contains *sqlite file(s)             
         └── scripts              --> python scripts to modify/create/move/remove databases
+        
 
 
 
@@ -129,12 +130,12 @@ Leni is planned to only support the following commands
 
 # Resources
 
+- https://www2.fossil-scm.org/home/doc/trunk/www/tech_overview.wiki
 - https://aosabook.org/en/v2/git.html
 - https://dev.to/wesen/14-great-tips-to-make-amazing-cli-applications-3gp3
 - https://ruslanspivak.com/lsbasi-part1/
 - https://click.palletsprojects.com/en/8.1.x/
 - https://docs.python.org/3/library/argparse.html
-
 
 ## Finds the difference between two files using Levenshtein distance.
 

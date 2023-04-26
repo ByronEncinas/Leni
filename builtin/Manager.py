@@ -75,7 +75,7 @@ class VCSManager():
         self.headpath = './'
         self.branch = {}
 
-    def initialize(self, flag = False) -> None:
+    def initialize(self) -> None:
         console.print("""[bold green] ./.leni folder created""")
 
     def status(self) -> None:

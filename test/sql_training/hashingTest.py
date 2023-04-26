@@ -71,10 +71,8 @@ if __name__ == '__main__':
     consql = sha256sum('pytosql.py')
     congit = sha256sum('creategit.py')
 
-    print(f"Hash:{consql}")
-    print(f"Hash:{congit}")
     consql = hashfile('pytosql.py')
     congit = hashfile('creategit.py')
 
-    print(f"Hash:{consql}")
-    print(f"Hash:{congit}")
+    ziphash = hashfile('no.zip')
+    print(ziphash)

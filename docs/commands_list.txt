@@ -1,18 +1,27 @@
 COMMANDS
 
-help          - display listed commands and their usage
-system        - shows system specification
-here          - prints files in path
-cls or clean  - empties terminal
-past          - history of last 100 input commands
-fin           - exits the cli-leni terminal
-show          - 
+VCS_CMDS = {
+            "init":        VCSManager().initialize,
+            "status" :     VCSManager().status,
+            "log" :        VCSManager().log,
+            "adog" :       VCSManager().adog,
+            "add" :        VCSManager().add,
+            "rm" :         VCSManager().remove,
+            "commit":      VCSManager().commit,  # updates Head 
+            "branch":      VCSManager().branch,  # set up a branch with a new-side-controlled Head
+            "switch" :     VCSManager().switch,  # change from one branch to another
+            "merge" :      VCSManager().merge,  # change from one branch to another
+            }
 
+# no contribution workflows allowed for v1.0.0
 
+SYS_CMDS = {
+            "help":    System.help,
+            "id_gen":  System.id_gen,
+            "release": System.release,
+            "licence": System.licence,
+            }
 
-SPECIFICS
-
-leni <filename> -[dfs|bds] [from path ./home/user/etc...]
-leni exa <cmd> - show a formatted example of command
-leni plot
-
+FLAG_CMDS = {
+            "help":    System.help,
+            }

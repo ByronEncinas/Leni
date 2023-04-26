@@ -62,11 +62,10 @@ def validate_init():
         return False
 
 def init():
-    if len(arg) == 0 or "--help" in arg:
-        SYS_CMDS["--help"]()
+    if len(argcom) == 0 or "help" in argcom:
+        SYS_CMDS["help"]()
     else:
 
-        global flag_init
         # if remote repo exists
         console.print("""
 [orange]────────────────────────────────────────────────────────────────────
@@ -74,15 +73,12 @@ def init():
 [black]     You have Initialized your remote repository""")    
             # check if we can create .leni/ folder
         try:
+            # create ./.leni
             os.mkdir(path)
-            flag_init = True
             # initialize repo
-            VCSManager().initialize(arg, flag=flag_init)
-                
+            VCSManager().initialize()
         except OSError as e:
             # michg be permissions 
-            flag_init = False
-
             log.error(e)
 
 
@@ -91,16 +87,16 @@ if __name__ == '__main__':
     if not validate_init(): 
         init()
 
-    elif len(arg) == 0:
-        SYS_CMDS["--help"]()
+    elif len(argcom) == 0:
+        SYS_CMDS["help"]()
 
     else:
         # if command is a system instruction then
-        if arg[0] in SYS_CMDS:
-            SYS_CMDS[arg[0]]()
+        if argcom[0] in SYS_CMDS:
+            SYS_CMDS[argcom[0]]()
         # if command is a version control instruction then
-        elif arg[0] in VCS_CMDS:
-            VCS_CMDS[arg[0]]()
+        elif argcom[0] in VCS_CMDS:
+            VCS_CMDS[argcom[0]]()
         else:
             pass
     

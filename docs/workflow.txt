@@ -17,6 +17,7 @@ which in turn will do two things:
                 [Number of items (i.e. files in the project)]
                 [modification date and time]
 
+
 >> leni status
 will display the status of the whole project, with all of its versions
         --> HEAD id --> "[HEAD]" {%No. files}
