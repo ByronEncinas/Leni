@@ -12,30 +12,28 @@ OS_SYS = {'nt': 'cls', 'posix':'clear'}
 
 os.system(OS_SYS[os.name])
 
-console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
+""" 
+Global functions 
+
+"""
 
 class System():
+    console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
     # leni --help
     # leni -h
     @staticmethod
     def help():
-        console.print("""[bold green] Help Screen""")
-        pass
-
-    @staticmethod
-    def status():
-        # look for 
-        console.print("""[bold yellow] Status: Current HEAD """)
+        console.print("""[bold blue] Help Screen""")
         pass
         
     @staticmethod
     def licence():
-        console.print("""[bold green] Licence Disclosure""")
+        console.print("""[bold blue] Licence Disclosure""")
         pass
 
     @staticmethod
     def release():
-        console.print("""[bold green] You are using XXXXX version of leni""")
+        console.print("""[bold blue] You are using XXXXX version of leni""")
         # oper changelog and find version information
         pass
     
@@ -52,7 +50,7 @@ class System():
         # if file id_pointers.dat exists find
         if os.path.exists(os.path.join(project_path, 'id_pointers.dat')):
             
-            console.print("""[bold green] found .leni/db/sha/id_pointers.dat""")
+            console.print("""[bold blue] found .leni/db/sha/id_pointers.dat""")
             # then read all values in file and if no ocurrence then save
 
             with open(os.path.join(project_path, 'id_pointers'), "w") as idpointers:
@@ -62,7 +60,7 @@ class System():
                 if curr_commit_id in ids:
                     return System.id_gen()
         
-        console.print(f"""[bold green] ID Generated: {curr_commit_id}""")
+        console.print(f"""[bold blue] ID Generated: {curr_commit_id}""")
 
         return curr_commit_id
 """ 
@@ -70,6 +68,7 @@ VCS manager will be using sqlite to address the management of the GitObject, Tre
 
 """
 class VCSManager():
+    console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
 
     def __init__(self):
         self.path = None
@@ -85,8 +84,10 @@ class VCSManager():
         
     def log(self) -> None:
         console.print("""[bold green] display commit history in different formats""")
-    
-        
+
+    def adog(self) -> None:
+        console.print("""[bold green] display commit history in Tree format""")
+
     def add(self) -> None:
         console.print("""[bold green] record changes on certain file""")
         console.print("""[bold green] AKA convert to blob and temporaly store""")
@@ -101,13 +102,35 @@ class VCSManager():
     def branch(self) -> None:
         console.print("""[bold green] Create a new branch <name>""")
         console.print("""[bold green] Create a new SubTree into the database""")
-    
+        
     def switch(self) -> None:
         console.print("""[bold green] Change to branch <name>""")
         console.print("""[bold green] Change to a new SubTree into the database""")
         
     def merge(self) -> None:
         console.print("""[bold green] Pending to document""")
-        
+
+"""  
+Wrapper functions to display several flag driven outputs. Not in v1.0.0
+
+"""
+
+class FlagProcedures:
+    def help(self):
+        System.help()
+
+    def force(self):
+        pass
+
+
+"""  
+Lone functions
+
+"""
+def flag(var):
+    if '--' in var: return True
+    else: return False
+
+
 if __name__ == '__main__':
     pass

@@ -1,4 +1,3 @@
-#!/usr/bin python3 
 import os, sys, subprocess
 import logging
 from builtin.Manager import System, VCSManager

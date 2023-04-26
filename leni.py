@@ -1,6 +1,9 @@
 import os, sys, subprocess
 import logging
+
 from builtin.Manager import System, VCSManager
+from builtin.Manager import flag
+
 from rich.console import Console
 from rich.logging import RichHandler
 
@@ -10,7 +13,8 @@ os.system("cls")
 
 # accesible from anywhere in file
 # > $ leni [arg]
-arg = sys.argv[1:]
+argcom  = sys.argv[1:]
+argflag = filter(flag, argcom)
 
 # Path
 path = os.path.join(os.getcwd(), '.leni')
@@ -19,27 +23,32 @@ path = os.path.join(os.getcwd(), '.leni')
 log = logging.getLogger()
 logging.basicConfig(level="NOTSET", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(markup=True, rich_tracebacks=True)])
 
-global VSC_CMDS, SYS_CMDS
+global VSC_CMDS, SYS_CMDS, FLAG_CMDS
 
 VCS_CMDS = {
             "init":        VCSManager().initialize,
             "status" :     VCSManager().status,
             "log" :        VCSManager().log,
+            "adog" :       VCSManager().adog,
             "add" :        VCSManager().add,
             "rm" :         VCSManager().remove,
             "commit":      VCSManager().commit,  # updates Head 
             "branch":      VCSManager().branch,  # set up a branch with a new-side-controlled Head
             "switch" :     VCSManager().switch,  # change from one branch to another
+            "merge" :      VCSManager().merge,  # change from one branch to another
             }
 
 # no contribution workflows allowed for v1.0.0
 
 SYS_CMDS = {
-            "--help":  System.help,
-            "status":  System.status,
+            "help":    System.help,
             "id_gen":  System.id_gen,
             "release": System.release,
             "licence": System.licence,
+            }
+
+FLAG_CMDS = {
+            "help":    System.help,
             }
 
 
@@ -47,17 +56,12 @@ def validate_init():
     if os.path.exists(path):
         return True
     else:
-        console.print(
-"""  
+        console.print("""  
 [bold green] Your Leni remote repository already initialized: 
-[bold white] See status: 
-"""
-)   
-
+[bold white] See status: """)   
         return False
 
 def init():
-
     if len(arg) == 0 or "--help" in arg:
         SYS_CMDS["--help"]()
     else:
@@ -65,15 +69,14 @@ def init():
         global flag_init
         # if remote repo exists
         console.print("""
-    [orange]────────────────────────────────────────────────────────────────────
-    [yellow]           Leni Version Control System 
-    [black]     You have Initialized your remote repository
-                """)    
+[orange]────────────────────────────────────────────────────────────────────
+[yellow]           Leni Version Control System 
+[black]     You have Initialized your remote repository""")    
             # check if we can create .leni/ folder
         try:
             os.mkdir(path)
             flag_init = True
-                # initialize repo
+            # initialize repo
             VCSManager().initialize(arg, flag=flag_init)
                 
         except OSError as e:
