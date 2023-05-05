@@ -1,9 +1,29 @@
 import os, sys
+import zipfile, hashlib
 import random
 import json
 import datetime
 from rich.console import Console
 
+"""  
+Create the directories
+
+                /.leni
+                    ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
+                    ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
+                    ├── config
+                    ├── index
+                    ├── objects/
+                    ├── refs/
+                    |       |
+                    |       └── heads/
+                    └── logs/
+                            |
+                            └── refs/
+                                   |
+                                   ├── heads/
+                                   └── HEAD
+"""
 # here we store all methods in charge of displaying to screen
 
 console = Console()
@@ -17,10 +37,9 @@ Global functions
 
 """
 
+console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
 class System():
-    console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
-    # leni --help
-    # leni -h
+    
     @staticmethod
     def help():
         console.print("""[bold blue] Help Screen""")
@@ -38,47 +57,83 @@ class System():
         pass
     
     @staticmethod
-    def id_gen():
-        # Parent Directory path
-        parent_dir = os.getcwd()  
-        # Path
-        project_path = os.path.join(parent_dir, '.leni/db/sha')
-        # id available characters
-        id_char = 'abcdefghijklmnopqrstvwxyz0123456789'
-        curr_commit_id = "".join(random.sample(id_char,7))
-
-        # if file id_pointers.dat exists find
-        if os.path.exists(os.path.join(project_path, 'id_pointers.dat')):
-            
-            console.print("""[bold blue] found .leni/db/sha/id_pointers.dat""")
-            # then read all values in file and if no ocurrence then save
-
-            with open(os.path.join(project_path, 'id_pointers'), "w") as idpointers:
-                ids = []
-                for line in idpointers:
-                    ids.append(line)
-                if curr_commit_id in ids:
-                    return System.id_gen()
-        
-        console.print(f"""[bold blue] ID Generated: {curr_commit_id}""")
-
-        return curr_commit_id
+    def hashfile256(file):
+        BUF_SIZE = 65536
+        sha256 = hashlib.sha256()
+        with open(file, 'rb') as f:
+            while True:
+                data = f.read(BUF_SIZE)
+                if not data:
+                    break
+                sha256.update(data)
+        return sha256.hexdigest()
+    
 """ 
 VCS manager will be using sqlite to address the management of the GitObject, Tree, Blob, Commit and Tag Tables
 
 """
 class VCSManager():
-    console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
 
     def __init__(self):
-        self.path = None
-        self.headpath = './'
-        self.branch = {}
+        # this path corresponds to user project path
+        self.DOT_LENI_PATH = os.path.join(os.getcwd(), r'.leni') # .leni location
+        self.DOT_LENI_PATH_OBJECTS = os.path.join(os.getcwd(), r'.leni/objects') # .leni location
+        self.DOT_LENI_PATH_LOGS = os.path.join(os.getcwd(), r'.leni/logs') # .leni location
+        self.DOT_LENI_PATH_REFS = os.path.join(os.getcwd(), r'.leni/refs') # .leni location
 
-    def initialize(self) -> None:
-        console.print("""[bold green] ./.leni folder created""")
+        self.DOT_LENI_PROJ = os.getcwd() # repo location (set as env variable)
 
-    def status(self) -> None:
+
+    def initialize(self) -> None: # >$ leni init
+        # check if we can create .leni/ folder
+            # try    -> create ./.leni in the path of the project
+            #           initialize repo
+            # except -> don't create since already exists
+
+        try: 
+            # os.mkdir(self.DOT_LENI_PATH)
+            os.makedirs(self.DOT_LENI_PATH_OBJECTS)
+            os.makedirs(self.DOT_LENI_PATH_REFS)
+            os.makedirs(os.path.join(self.DOT_LENI_PATH_REFS, r'heads'))
+            os.makedirs(os.path.join(self.DOT_LENI_PATH_LOGS, r'refs'))
+
+            console.print("""\n[bold green] ./.leni and subtrees created""")   
+        except:
+            console.print("""\n[bold green] .leni already initialized\n""")    
+
+        try:    
+            # let's zip the whole LENI_DIR contents, including itself as a zip file 
+            self.HEAD_ZIP_LOC = r'./init.zip'
+
+            with zipfile.ZipFile(self.HEAD_ZIP_LOC, mode='w') as zipf:    
+                add_folder_to_zip(r'./', zipf)
+                self.SHA256_OF_HEADZIP = System().hashfile256(r'./init.zip')
+
+            dir = self.SHA256_OF_HEADZIP[:2]            
+            subdir = self.SHA256_OF_HEADZIP[2:]
+            loc = os.path.join(dir, subdir) # ./.leni/objects/00/012049147147993197/00012049147147993197.zip
+
+            # write main branch in ./.leni/refs/head/
+
+
+
+
+
+            # write initial commit in .leni/COMMIT_EDITMSG as 'initial commit'
+            with open(r'./leni/COMMIT_EDITMSG', 'w') as init_commit:
+                init_commit.write(f'initial commit for {self.SHA256_OF_HEADZIP}')
+
+        except OSError as ERROR_MSG:
+            console.print(f"""[bold yellow] {ERROR_MSG}""")
+            self.DOT_LENI_PATH = os.path.join(os.getcwd(), '.leni') # .leni location
+
+        # save head.zip in th
+
+
+
+
+
+    def status(self) -> None:  # >$ leni status
         console.print("""[bold green] status shows diff between current content""")
         console.print("""[bold green] and previous commit object""")
         
@@ -97,6 +152,7 @@ class VCSManager():
         console.print("""[bold green] AKA delete temporaly store""")
     
     def commit(self) -> None:
+        # after first commit, this will modify .leni/logs/heads/main
         console.print("""[bold green] AKA convert to blob and temporaly store""")
         
     def branch(self) -> None:
@@ -131,6 +187,27 @@ def flag(var):
     if '--' in var: return True
     else: return False
 
+def add_folder_to_zip(src_folder_name, dst_zip_archive):
+    """ Adds a folder and its contents to a zip archive
+        Args:
+            src_folder_name (str): Source folder name to add to the archive
+            dst_zip_archive (ZipFile):  Destination zip archive
+
+        Returns:
+            None
+    """
+    for walk_item in os.walk(src_folder_name):
+        for file_item in walk_item[2]:
+            # walk_item[2] is a list of files in the folder entry
+            # walk_item[0] is the folder entry full path 
+            fn_to_add = os.path.join(walk_item[0], file_item)
+            dst_zip_archive.write(fn_to_add)
+
+def read_sha256():
+    pass
+
+def write_sha256():
+    pass
 
 if __name__ == '__main__':
-    pass
+    VCSManager().initialize()

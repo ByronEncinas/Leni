@@ -1,0 +1,19 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/ByronEncinas/Leni.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[branch "boilerplate-update-test"]
+	remote = origin
+	merge = refs/heads/boilerplate-update-test
+[gui]
+	wmstate = normal
+	geometry = 1109x563+192+192 216 255

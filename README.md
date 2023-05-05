@@ -15,6 +15,12 @@
 Leni terminal is Version Control System, very much a clone of git in python.
 Nevertheless it is provided a few added controls to manage files independently of the terminal shell
 
+# pending features for v1.0.0 release
+
+- [ ] "python leni.py init" command creates and saves whole initial state, partial development currently
+- [ ] dynamic switching between different refs|branches (hand in hand with showing history Tree with hashes available)
+- [ ] executable "leni.exe" for CLI usage.
+
 # Create Virtual Environment for Test
 
 ## Using venv
@@ -29,50 +35,6 @@ And when finished
 
         CLI_Leni> pip freeze > requirements.txt
         CLI_Leni> deactivate
-
-
-# Version Control Workflow
-
-set yourself in the path of your project
-type: "leni" or "leni --help" to display command manual
-
-to initialize Leni type:
-
-    >>$ leni init
-
-which in turn will do two things:
-
-        --> check in .leni/ folder exists, in that case will give you 
-                [HEAD id]
-                [Number of items (i.e. files in the project)]
-                [last modification date and time]
-
-                That it'll obtain from 
-                ./CLI_Leni/.leni/db/dbleni.db
-
-        --> if .leni/ does not exist, it will create it along with a folder named
-                after the new HEAD id with a .lni extension.
-                it will write 
-                [new HEAD id]
-                [Number of items (i.e. files in the project)]
-                [modification date and time]
-
-Other useful command is:
-
-    >>$ leni status
-
-will display the status of the whole project, with all of its versions
-
-        >>$ leni status
-
-        --> HEAD id --> "[HEAD]" {%No. files}
-            prev id --> "message of description of change" {%No. files}
-            prev id --> "message of description of change" {%No. files}
-            prev id --> "message of description of change" {%No. files}
-            prev id --> "message of description of change" {%No. files}
-            .
-            .
-            .
 
 
 # Simple Commands
@@ -107,12 +69,21 @@ Leni is planned to only support the following commands
         │   └── styles
         └── lib                 --> Classes and static methods with specific and general use
 
-
     ./.leni
-        |
-        ├── db                   --> contains *sqlite file(s)             
-        └── scripts              --> python scripts to modify/create/move/remove databases
-        
+        ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
+        ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
+        ├── config
+        ├── index
+        ├── objects/
+        ├── refs/
+        |       |
+        |       └── heads/main              --> saves up latest hash for certain branch
+        └── logs/
+                |
+                └── refs/
+                        |
+                        ├── heads/
+                        └── HEAD
 
 
 

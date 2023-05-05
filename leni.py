@@ -1,3 +1,4 @@
+
 import os, sys, subprocess
 import logging
 
@@ -42,7 +43,7 @@ VCS_CMDS = {
 
 SYS_CMDS = {
             "help":    System.help,
-            "id_gen":  System.id_gen,
+            "hashing":  System.hashfile,
             "release": System.release,
             "licence": System.licence,
             }
@@ -61,31 +62,11 @@ def validate_init():
 [bold white] See status: """)   
         return False
 
-def init():
-    if len(argcom) == 0 or "help" in argcom:
-        SYS_CMDS["help"]()
-    else:
-
-        # if remote repo exists
-        console.print("""
-[orange]────────────────────────────────────────────────────────────────────
-[yellow]           Leni Version Control System 
-[black]     You have Initialized your remote repository""")    
-            # check if we can create .leni/ folder
-        try:
-            # create ./.leni
-            os.mkdir(path)
-            # initialize repo
-            VCSManager().initialize()
-        except OSError as e:
-            # michg be permissions 
-            log.error(e)
-
 
 if __name__ == '__main__':
     
     if not validate_init(): 
-        init()
+        VCS_CMDS['init']()
 
     elif len(argcom) == 0:
         SYS_CMDS["help"]()
