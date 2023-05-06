@@ -21,22 +21,6 @@ Nevertheless it is provided a few added controls to manage files independently o
 - [ ] dynamic switching between different refs|branches (hand in hand with showing history Tree with hashes available)
 - [ ] executable "leni.exe" for CLI usage.
 
-# Create Virtual Environment for Test
-
-## Using venv
-
-Track dependencies needed to deploy Leni by testing changes in a virtual environment
-
-        CLI_Leni> python -m venv venv 
-        CLI_Leni> .\venv\Scripts\activate.ps1 
-        CLI_Leni> pip install -r .\requirements.txt
-
-And when finished
-
-        CLI_Leni> pip freeze > requirements.txt
-        CLI_Leni> deactivate
-
-
 # Simple Commands
 
 Leni is planned to only support the following commands

@@ -94,8 +94,13 @@ class VCSManager():
             # os.mkdir(self.DOT_LENI_PATH)
             os.makedirs(self.DOT_LENI_PATH_OBJECTS)
             os.makedirs(self.DOT_LENI_PATH_REFS)
-            os.makedirs(os.path.join(self.DOT_LENI_PATH_REFS, r'heads'))
-            os.makedirs(os.path.join(self.DOT_LENI_PATH_LOGS, r'refs'))
+            
+            logsrefs = os.path.join(self.DOT_LENI_PATH_LOGS, r'refs')
+            refshead = os.path.join(self.DOT_LENI_PATH_REFS, r'heads')
+
+            os.makedirs(logsrefs)
+            os.makedirs(refshead)
+
 
             console.print("""\n[bold green] ./.leni and subtrees created""")   
         except:
@@ -103,26 +108,30 @@ class VCSManager():
 
         try:    
             # let's zip the whole LENI_DIR contents, including itself as a zip file 
-            self.HEAD_ZIP_LOC = r'./init.zip'
+            self.HEAD_ZIP_LOC = r'/root.zip'
 
             with zipfile.ZipFile(self.HEAD_ZIP_LOC, mode='w') as zipf:    
                 add_folder_to_zip(r'./', zipf)
-                self.SHA256_OF_HEADZIP = System().hashfile256(r'./init.zip')
+                self.SHA256_OF_HEADZIP = System().hashfile256(r'./root.zip')
+                os.system('')
 
             dir = self.SHA256_OF_HEADZIP[:2]            
             subdir = self.SHA256_OF_HEADZIP[2:]
             loc = os.path.join(dir, subdir) # ./.leni/objects/00/012049147147993197/00012049147147993197.zip
 
-            # write main branch in ./.leni/refs/head/
+            # write main branch in ./.leni/refs/head/main
+            with open(os.path.join(os.path.join(self.DOT_LENI_PATH_REFS, r'heads'), r'main'), mode='w') as main:
+                print(self.SHA256_OF_HEADZIP)
+                main.write(self.SHA256_OF_HEADZIP)
 
+            # write description of first commit and also create the COMMIT_EDITMSG file, this only belongs to current sha
+            with open(os.path.join(self.DOT_LENI_PATH, r'COMMIT_EDITMSG'), mode='w') as main:
+                main.write(f'[branch] main (initial commit)')
 
+            
 
-
-
-            # write initial commit in .leni/COMMIT_EDITMSG as 'initial commit'
-            with open(r'./leni/COMMIT_EDITMSG', 'w') as init_commit:
-                init_commit.write(f'initial commit for {self.SHA256_OF_HEADZIP}')
-
+            
+                
         except OSError as ERROR_MSG:
             console.print(f"""[bold yellow] {ERROR_MSG}""")
             self.DOT_LENI_PATH = os.path.join(os.getcwd(), '.leni') # .leni location
@@ -201,7 +210,10 @@ def add_folder_to_zip(src_folder_name, dst_zip_archive):
             # walk_item[2] is a list of files in the folder entry
             # walk_item[0] is the folder entry full path 
             fn_to_add = os.path.join(walk_item[0], file_item)
-            dst_zip_archive.write(fn_to_add)
+
+            if fn_to_add.split('\\')[0] != r'./.leni' or fn_to_add.split('\\')[0] != r'./.git':
+                dst_zip_archive.write(fn_to_add)
+
 
 def read_sha256():
     pass
@@ -211,3 +223,8 @@ def write_sha256():
 
 if __name__ == '__main__':
     VCSManager().initialize()
+    
+    """ 
+    with zipfile.ZipFile(r'./test.zip', mode='w') as zipf:    
+        add_folder_to_zip(r'./', zipf) 
+    """
