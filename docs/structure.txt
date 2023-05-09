@@ -17,7 +17,19 @@
         └── lib                 --> Classes and static methods with specific and general use
 
 
-    /.leni
-        |
-        ├── db                   --> contains *sqlite file(s)             
-        └── scripts              --> python scripts to modify/create/move/remove databases
+Set up first commit & create the directories
+        /.leni
+            ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
+            ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
+            ├── config
+            ├── index
+            ├── objects/
+            ├── refs/
+            |       |
+            |       └── heads/
+            └── logs/
+                    |
+                    └── refs/
+                           |
+                            ├── heads/
+                            └── HEAD

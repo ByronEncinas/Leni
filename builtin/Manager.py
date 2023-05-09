@@ -1,29 +1,9 @@
 import os, sys
 import zipfile, hashlib
-import random
-import json
 import datetime
+
 from rich.console import Console
 
-"""  
-Create the directories
-
-                /.leni
-                    ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
-                    ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
-                    ├── config
-                    ├── index
-                    ├── objects/
-                    ├── refs/
-                    |       |
-                    |       └── heads/
-                    └── logs/
-                            |
-                            └── refs/
-                                   |
-                                   ├── heads/
-                                   └── HEAD
-"""
 # here we store all methods in charge of displaying to screen
 
 console = Console()
@@ -37,7 +17,6 @@ Global functions
 
 """
 
-console.print(""" [orange]────────────────────────────────────────────────────────────────────""")
 class System():
     
     @staticmethod
@@ -46,7 +25,7 @@ class System():
         pass
         
     @staticmethod
-    def licence():
+    def license():
         console.print("""[bold blue] Licence Disclosure""")
         pass
 
@@ -75,72 +54,72 @@ VCS manager will be using sqlite to address the management of the GitObject, Tre
 class VCSManager():
 
     def __init__(self):
-        # this path corresponds to user project path
-        self.DOT_LENI_PATH = os.path.join(os.getcwd(), r'.leni') # .leni location
-        self.DOT_LENI_PATH_OBJECTS = os.path.join(os.getcwd(), r'.leni/objects') # .leni location
-        self.DOT_LENI_PATH_LOGS = os.path.join(os.getcwd(), r'.leni/logs') # .leni location
-        self.DOT_LENI_PATH_REFS = os.path.join(os.getcwd(), r'.leni/refs') # .leni location
+        self.DOT_LENI_PATH =         os.path.join(os.getcwd(), r'.leni')
+        self.DOT_LENI_PATH_OBJECTS = os.path.join(os.getcwd(), r'.leni/objects')
+        self.DOT_LENI_PATH_LOGS =    os.path.join(os.getcwd(), r'.leni/logs')
+        self.DOT_LENI_PATH_REFS =    os.path.join(os.getcwd(), r'.leni/refs')
+        self.DOT_LENI_PROJ =         os.getcwd()
+        self.USER =                  os.environ.get('USER', os.environ.get('USERNAME'))
 
-        self.DOT_LENI_PROJ = os.getcwd() # repo location (set as env variable)
-
-
-    def initialize(self) -> None: # >$ leni init
-        # check if we can create .leni/ folder
-            # try    -> create ./.leni in the path of the project
-            #           initialize repo
-            # except -> don't create since already exists
+    def initialize(self) -> None: # ./leni init
+        """ 
+        Set up first commit & create the directories
+                /.leni
+                    ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
+                    ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
+                    ├── config
+                    ├── index
+                    ├── objects/
+                    ├── refs/
+                    |       |
+                    |       └── heads/
+                    └── logs/
+                            |
+                            └── refs/
+                                   |
+                                   ├── heads/
+                                   └── HEAD
+        """
 
         try: 
-            # os.mkdir(self.DOT_LENI_PATH)
-            os.makedirs(self.DOT_LENI_PATH_OBJECTS)
-            os.makedirs(self.DOT_LENI_PATH_REFS)
-            
             logsrefs = os.path.join(self.DOT_LENI_PATH_LOGS, r'refs')
             refshead = os.path.join(self.DOT_LENI_PATH_REFS, r'heads')
-
+            os.makedirs(self.DOT_LENI_PATH_OBJECTS)
+            os.makedirs(self.DOT_LENI_PATH_REFS)            
             os.makedirs(logsrefs)
             os.makedirs(refshead)
-
-
+            
             console.print("""\n[bold green] ./.leni and subtrees created""")   
         except:
+
             console.print("""\n[bold green] .leni already initialized\n""")    
 
         try:    
-            # let's zip the whole LENI_DIR contents, including itself as a zip file 
-            self.HEAD_ZIP_LOC = r'/root.zip'
-
+            # snapshot: zip ./ file pathlet's 
+            self.HEAD_ZIP_LOC = r'./root.zip'
             with zipfile.ZipFile(self.HEAD_ZIP_LOC, mode='w') as zipf:    
                 add_folder_to_zip(r'./', zipf)
                 self.SHA256_OF_HEADZIP = System().hashfile256(r'./root.zip')
-                os.system('')
-
+            os.system('mv ./root.zip ./.leni/objects/')
             dir = self.SHA256_OF_HEADZIP[:2]            
             subdir = self.SHA256_OF_HEADZIP[2:]
-            loc = os.path.join(dir, subdir) # ./.leni/objects/00/012049147147993197/00012049147147993197.zip
-
-            # write main branch in ./.leni/refs/head/main
-            with open(os.path.join(os.path.join(self.DOT_LENI_PATH_REFS, r'heads'), r'main'), mode='w') as main:
-                print(self.SHA256_OF_HEADZIP)
-                main.write(self.SHA256_OF_HEADZIP)
-
+            loc = os.path.join(dir, subdir) 
+            
+            # write main branch in ./.leni/refs/head/lenimain & ./.leni/refs/leniHEAD
+            with open(os.path.join(os.path.join(self.DOT_LENI_PATH_REFS, r'heads'), r'lenimain'), mode='w') as main:
+                main.write(f'0000000000000000000000000000000000000000  {self.SHA256_OF_HEADZIP} {self.USER} commit (initial): first commit')
+            
+            with open(os.path.join(self.DOT_LENI_PATH_REFS, r'leniHEADS'), mode='w') as main:
+                main.write(f'0000000000000000000000000000000000000000  {self.SHA256_OF_HEADZIP} {self.USER} commit (initial): first commit')
+            
             # write description of first commit and also create the COMMIT_EDITMSG file, this only belongs to current sha
             with open(os.path.join(self.DOT_LENI_PATH, r'COMMIT_EDITMSG'), mode='w') as main:
                 main.write(f'[branch] main (initial commit)')
 
-            
 
-            
-                
         except OSError as ERROR_MSG:
             console.print(f"""[bold yellow] {ERROR_MSG}""")
             self.DOT_LENI_PATH = os.path.join(os.getcwd(), '.leni') # .leni location
-
-        # save head.zip in th
-
-
-
-
 
     def status(self) -> None:  # >$ leni status
         console.print("""[bold green] status shows diff between current content""")
@@ -222,9 +201,5 @@ def write_sha256():
     pass
 
 if __name__ == '__main__':
-    VCSManager().initialize()
-    
-    """ 
-    with zipfile.ZipFile(r'./test.zip', mode='w') as zipf:    
-        add_folder_to_zip(r'./', zipf) 
-    """
+    vcs_manager = VCSManager()
+    vcs_manager.initialize()
