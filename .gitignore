@@ -1,12 +1,12 @@
 # module imports
 */__init__.py
+./builtin/Diff.py
 
 # folders
 */__pycache__/
 ./test/
-./.leni/
+./.leni
 ./venv/
-./.lenif
 
 # extensions
 *.bat
@@ -14,6 +14,3 @@
 
 # zipfiles
 *.zip
-
-
-

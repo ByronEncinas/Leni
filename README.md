@@ -41,9 +41,9 @@ Leni is planned to only support the following commands
     ./project
         |
         ├── release             --> release version and requirements
-        ├── structure.txt       --> structure of the /.leni/ file system
-        ├── .leni
-        ├── .temp               --> saves temporary changes b4 commit
+        ├── requirements.txt    --> release version and requirements
+        ├── structure.txt       --> structure of the ./.leni/ file system
+        ├── .temp               --> saves temporary data
         ├── .env                --> saves environmental variables if used (not in this version)
         ├── changelog.txt       --> erros and warning specifications
         ├── readme.md
@@ -52,7 +52,7 @@ Leni is planned to only support the following commands
         │   ├── images
         │   ├── javascript
         │   └── styles
-        └── lib                 --> Classes and static methods with specific and general use
+        └── builtin             --> Classes and static methods with specific and general use
 
     ./.leni
         ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
