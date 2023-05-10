@@ -89,7 +89,7 @@ def validate_init():
 [bold white] See status: """)   
         return False
 
-
+log.info('')
 if __name__ == '__main__':
     
     if not validate_init(): 
