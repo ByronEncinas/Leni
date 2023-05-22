@@ -1,12 +1,13 @@
 # module imports
-*/__init__.py
-./builtin/Diff.py
+__init__.py
+builtin/Diff.py
 
 # folders
-*/__pycache__/
-./test/
-./.leni
+__pycache__/
+test/
+.leni
 .env/
+diffpy-feature/
 
 # extensions
 *.bat
