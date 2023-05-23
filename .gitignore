@@ -10,7 +10,6 @@ test/
 diffpy-feature/
 
 # extensions
-*.bat
 *.sh
 
 # zipfiles
