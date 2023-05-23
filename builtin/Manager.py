@@ -105,11 +105,14 @@ class VCSManager():
                 add_folder_to_zip(r'./', zipf)
                 self.SHA256_OF_HEADZIP = System().hashfile256(r'./root.zip')
             sha_path1 = os.path.join(r'./.leni/objects/', self.SHA256_OF_HEADZIP[:2])
-            os.mkdir(sha_path1 ) 
             sha_path2 = os.path.join(sha_path1, self.SHA256_OF_HEADZIP[2:]) 
-            os.mkdir(sha_path2) 
-            print(sha_path2)
-            os.system(r'mv ./root.zip '+sha_path2)
+            try:
+                os.makedirs(sha_path2) 
+                #os.mkdir(sha_path2) 
+                #os.mkdir(sha_path2) 
+                os.system(r'mv ./root.zip ' + sha_path2)
+            except:
+                console.print('[bold green] sha-256 already exists')
 
             dir = self.SHA256_OF_HEADZIP[:2]            
             subdir = self.SHA256_OF_HEADZIP[2:]
@@ -125,6 +128,8 @@ class VCSManager():
             # write description of first commit and also create the COMMIT_EDITMSG file, this only belongs to current sha
             with open(os.path.join(self.DOT_LENI_PATH, r'COMMIT_EDITMSG'), mode='w') as main:
                 main.write(f'[branch] main (initial commit)')
+
+            print(self.SHA256_OF_HEADZIP)
 
 
         except OSError as ERROR_MSG:
@@ -218,8 +223,7 @@ def add_folder_to_zip(src_folder_name, dst_zip_archive):
             # walk_item[2] is a list of files in the folder entry
             # walk_item[0] is the folder entry full path 
             fn_to_add = os.path.join(walk_item[0], file_item)
-            if fn_to_add.split('\\')[0] not in ['./.git', './.leni', './.env', './__pycache__', './.leni/objects/']:
-                print(fn_to_add.split('\\')[0])
+            if fn_to_add.split('\\')[0] not in ['./.git', './.leni', './.env', './__pycache__', './.leni/objects/', './root.zip','./.github']:
                 dst_zip_archive.write(fn_to_add)
 
 

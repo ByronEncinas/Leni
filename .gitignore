@@ -5,10 +5,9 @@ builtin/Diff.py
 # folders
 */__pycache__/
 ./test/
-./.leni
+./.leni/
 ./.github/
 ./venv/
-
 
 # extensions
 *.sh
