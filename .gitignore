@@ -6,6 +6,7 @@ builtin/Diff.py
 */__pycache__/
 ./test/
 ./.leni
+./.github/
 ./venv/
 
 

@@ -324,7 +324,7 @@ def validate_args(status = False):
         try:
             _a, _b, a_file, b_file = sys.argv
         except ValueError:
-            print(sys.argv[0], '<FILE>', '<FILE>')
+            print('./leni diff', '<FILE>', '<FILE>')
             return 1
     else:
         # fetch previous commit and compare with
