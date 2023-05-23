@@ -1,0 +1,3 @@
+Archivo a para realizar myers_diff test
+Este linea no sufre cambios
+Aqui es la segunda línea
