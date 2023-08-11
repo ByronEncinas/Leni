@@ -1,11 +1,12 @@
 # detailed structure of /.leni file inspired in *git*
+# Folder <code>/.leni </code> structure
 
-    /project
+    ./project
         |
         ├── release             --> release version and requirements
-        ├── structure.txt       --> structure of the /.leni/ file system
-        ├── .leni
-        ├── .temp               --> saves temporary changes b4 commit
+        ├── requirements.txt    --> release version and requirements
+        ├── structure.txt       --> structure of the ./.leni/ file system
+        ├── .temp               --> saves temporary data
         ├── .env                --> saves environmental variables if used (not in this version)
         ├── changelog.txt       --> erros and warning specifications
         ├── readme.md
@@ -14,22 +15,20 @@
         │   ├── images
         │   ├── javascript
         │   └── styles
-        └── lib                 --> Classes and static methods with specific and general use
+        └── builtin             --> Classes and static methods with specific and general use
 
-
-Set up first commit & create the directories
-        /.leni
-            ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
-            ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
-            ├── config
-            ├── index
-            ├── objects/
-            ├── refs/
-            |       |
-            |       └── heads/
-            └── logs/
-                    |
-                    └── refs/
-                           |
-                            ├── heads/
-                            └── HEAD
+    ./.leni
+        ├── HEAD                            --> pointer (ref: refs/heads/<current branch>)
+        ├── COMMIT_EDITMSG                  --> commit description of inmediate last 
+        ├── config
+        ├── index
+        ├── objects/
+        ├── refs/
+        |       |
+        |       └── heads/main              --> saves up latest hash for certain branch
+        └── logs/
+                |
+                └── refs/
+                        |
+                        ├── heads/
+                        └── HEAD
