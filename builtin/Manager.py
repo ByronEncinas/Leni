@@ -93,7 +93,6 @@ class VCSManager():
             os.makedirs(logsrefs)
             os.makedirs(refshead)
             
-            console.print("""\n[bold green] ./.leni and subtrees created""")   
         except:
 
             console.print("""\n[bold green] .leni already initialized\n""")    
@@ -128,8 +127,6 @@ class VCSManager():
             # write description of first commit and also create the COMMIT_EDITMSG file, this only belongs to current sha
             with open(os.path.join(self.DOT_LENI_PATH, r'COMMIT_EDITMSG'), mode='w') as main:
                 main.write(f'[branch] main (initial commit)')
-
-            print(self.SHA256_OF_HEADZIP)
 
 
         except OSError as ERROR_MSG:

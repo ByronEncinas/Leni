@@ -17,7 +17,7 @@ Nevertheless it is provided a few added controls to manage files independently o
 
 # pending features for v1.0.0 release
 
-- [ ] "python leni.py init" command creates and saves whole initial state, partial development currently
+- [x] "python leni.py init" command creates and saves whole initial state, partial development currently
 - [ ] dynamic switching between different refs|branches (hand in hand with showing history Tree with hashes available)
 - [ ] executable "leni.exe" for CLI usage.
 - [ ] alternative pip package setup.py file
